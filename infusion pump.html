@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سیستم پیشرفته پمپ انفوزیون سرم</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* تنظیمات عمومی و فونت‌ها */
+    @font-face {
+      font-family: 'B Titr';
+      src: url('fonts/BTitrBold.ttf') format('truetype');
+    }
+    
+    @font-face {
+      font-family: 'B Nazanin';
+      src: url('fonts/BNazanin.ttf') format('truetype');
+    }
+    
+    :root {
+      --primary-color: #e74c3c;
+      --secondary-color: #3498db;
+      --accent-color: #f39c12;
+      --text-color: #2c3e50;
+      --light-bg: rgba(255, 255, 255, 0.92);
+      --dark-bg: rgba(231, 76, 60, 0.85);
+      --success-color: #2ecc71;
+      --warning-color: #e74c3c;
+      --info-color: #3498db;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'B Nazanin', sans-serif;
+      background: url('images/pump.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-color);
+      line-height: 1.8;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+
+    /* نوار منوی پیشرفته */
+    #sidebar {
+      width: 300px;
+      height: 95vh;
+      background-color: var(--dark-bg);
+      backdrop-filter: blur(12px);
+      color: white;
+      padding: 25px;
+      position: fixed;
+      top: 2.5vh;
+      right: 20px;
+      overflow-y: auto;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    #sidebar:hover {
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.8);
+    }
+    
+    #sidebar h2 {
+      font-family: 'B Titr', sans-serif;
+      font-size: 1.5rem;
+      margin: 20px 0 15px;
+      color: white;
+      padding: 12px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    
+    #sidebar h2:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: var(--accent-color);
+      transform: translateX(-5px);
+    }
+    
+    #sidebar h2 i {
+      transition: transform 0.3s ease;
+      font-size: 1.2rem;
+    }
+    
+    #sidebar h2.active i {
+      transform: rotate(90deg);
+    }
+    
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+      padding-right: 15px;
+    }
+    
+    .submenu.active {
+      max-height: 1000px;
+    }
+    
+    .submenu a {
+      color: #ecf0f1;
+      text-decoration: none;
+      display: block;
+      padding: 12px 20px;
+      font-size: 1.15rem;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      margin: 8px 0;
+      position: relative;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .submenu a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateX(-10px);
+      color: white;
+    }
+    
+    .submenu a::before {
+      content: "→";
+      position: absolute;
+      left: -5px;
+      opacity: 0;
+      transition: all 0.3s ease;
+      color: var(--accent-color);
+    }
+    
+    .submenu a:hover::before {
+      left: 0;
+      opacity: 1;
+    }
+    
+    .submenu a i {
+      margin-left: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* محتوای اصلی */
+    .content-container {
+      margin-right: 340px;
+      padding: 35px;
+      min-height: 100vh;
+    }
+    
+    .content {
+      background: var(--light-bg);
+      backdrop-filter: blur(8px);
+      border-radius: 15px;
+      padding: 35px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      margin-bottom: 35px;
+      transform: translateY(25px);
+      opacity: 0;
+      transition: all 0.6s ease;
+      border-left: 6px solid var(--primary-color);
+    }
+    
+    .content.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .content h1 {
+      font-family: 'B Titr', sans-serif;
+      font-size: 2.4rem;
+      color: var(--primary-color);
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--accent-color);
+      text-align: center;
+      position: relative;
+    }
+    
+    .content h1::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(to left, var(--accent-color), transparent);
+    }
+    
+    .content h1::before {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      right: 0;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(to right, var(--accent-color), transparent);
+    }
+    
+    .content h2 {
+      font-family: 'B Titr', sans-serif;
+      font-size: 1.9rem;
+      color: var(--secondary-color);
+      margin: 30px 0 20px;
+      position: relative;
+      padding-right: 20px;
+    }
+    
+    .content h2::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      right: 0;
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(to right, var(--info-color), transparent);
+      border-radius: 2px;
+    }
+    
+    .content h3 {
+      font-size: 1.5rem;
+      color: var(--text-color);
+      margin: 25px 0 15px;
+      font-weight: bold;
+    }
+    
+    .content p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-align: justify;
+      line-height: 1.9;
+    }
+    
+    .content ul, .content ol {
+      padding-right: 25px;
+      margin: 20px 0;
+    }
+    
+    .content li {
+      margin-bottom: 15px;
+      position: relative;
+      padding-right: 35px;
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+    
+    .content li::before {
+      content: "";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      position: absolute;
+      right: 0;
+      top: 2px;
+    }
+    
+    .content li strong {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    
+    /* کارت‌های ویژه */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 25px 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-right: 5px solid;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .info-card {
+      border-right-color: var(--info-color);
+      background: rgba(52, 152, 219, 0.08);
+    }
+    
+    .warning-card {
+      border-right-color: var(--warning-color);
+      background: rgba(231, 76, 60, 0.08);
+    }
+    
+    .success-card {
+      border-right-color: var(--success-color);
+      background: rgba(46, 204, 113, 0.08);
+    }
+    
+    .tip-card {
+      border-right-color: var(--accent-color);
+      background: rgba(243, 156, 18, 0.08);
+    }
+    
+    /* جدول‌های تخصصی */
+    .table-container {
+      overflow-x: auto;
+      margin: 25px 0;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: right;
+      border: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: var(--primary-color);
+      color: white;
+      font-family: 'B Titr', sans-serif;
+      font-size: 1.1rem;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    
+    /* دکمه بازگشت */
+    .back-to-top {
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
+      background: var(--primary-color);
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .back-to-top.visible {
+      opacity: 1;
+    }
+    
+    .back-to-top:hover {
+      background: var(--accent-color);
+      transform: translateY(-5px) scale(1.1);
+    }
+    
+    /* رسپانسیو */
+    @media (max-width: 1200px) {
+      #sidebar {
+        width: 280px;
+      }
+      
+      .content-container {
+        margin-right: 320px;
+        padding: 30px;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      #sidebar {
+        width: 260px;
+        padding: 20px;
+      }
+      
+      .content-container {
+        margin-right: 300px;
+        padding: 25px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      #sidebar {
+        width: 90%;
+        position: static;
+        height: auto;
+        margin: 20px auto;
+        right: auto;
+      }
+      
+      .content-container {
+        margin-right: 0;
+        padding: 20px;
+      }
+      
+      .content {
+        padding: 25px;
+      }
+      
+      .back-to-top {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 20px;
+        left: 20px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      #sidebar {
+        width: 95%;
+        padding: 15px;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+      
+      .content h1 {
+        font-size: 2rem;
+      }
+      
+      .content h2 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- نوار منوی پیشرفته -->
+  <div id="sidebar">
+    <h2 onclick="toggleSubmenu('menu1')">
+      <span><i class="fas fa-info-circle"></i> مقدمه‌ای بر پمپ انفوزیون</span>
+      <i class="fas fa-chevron-left"></i>
+    </h2>
+    <div id="menu1" class="submenu">
+      <a onclick="showContent('content1')"><i class="fas fa-file-medical"></i> تعریف پمپ انفوزیون</a>
+      <a onclick="showContent('content2')"><i class="fas fa-cogs"></i> اجزای پمپ انفوزیون</a>
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu2')">
+      <span><i class="fas fa-clipboard-check"></i> آماده‌سازی قبل از استفاده</span>
+      <i class="fas fa-chevron-left"></i>
+    </h2>
+    <div id="menu2" class="submenu">
+      <a onclick="showContent('content3')"><i class="fas fa-check-circle"></i> بررسی تجهیزات</a>
+      <a onclick="showContent('content4')"><i class="fas fa-syringe"></i> بازرسی ست داخل وریدی</a>
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu3')">
+      <span><i class="fas fa-play"></i> راه‌اندازی پمپ انفوزیون</span>
+      <i class="fas fa-chevron-left"></i>
+    </h2>
+    <div id="menu3" class="submenu">
+      <a onclick="showContent('content5')"><i class="fas fa-power-off"></i> روشن کردن پمپ</a>
+      <a onclick="showContent('content6')"><i class="fas fa-tools"></i> بارگذاری ست/سرنگ</a>
+      <a onclick="showContent('content7')"><i class="fas fa-fill-drip"></i> پر کردن خط</a>
+      <a onclick="showContent('content8')"><i class="fas fa-tachometer-alt"></i> تنظیم نرخ جریان</a>
+      <a onclick="showContent('content9')"><i class="fas fa-weight"></i> تنظیم حجم تزریق (VTBI)</a>
+      <a onclick="showContent('content10')"><i class="fas fa-bell"></i> تنظیمات هشدار</a>
+      <a onclick="showContent('content11')"><i class="fas fa-check-double"></i> تأیید تنظیمات</a>
+      <a onclick="showContent('content12')"><i class="fas fa-play-circle"></i> شروع پمپ</a>
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu4')">
+      <span><i class="fas fa-eye"></i> نظارت بر انفوزیون</span>
+      <i class="fas fa-chevron-left"></i>
+    </h2>
+    <div id="menu4" class="submenu">
+      <a onclick="showContent('content13')"><i class="fas fa-chart-line"></i> نظارت بر انفوزیون</a>
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu5')">
+      <span><i class="fas fa-exclamation-triangle"></i> بررسی هشدارها و خطاها</span>
+      <i class="fas fa-chevron-left"></i>
+    </h2>
+    <div id="menu5" class="submenu">
+      <a onclick="showContent('content14')"><i class="fas fa-bug"></i> بررسی هشدارها و خطاها</a>
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu6')">
+      <span><i class="fas fa-stop-circle"></i> پایان انفوزیون</span>
+      <i class="fas fa-chevron-left"></i>
+    </h2>
+    <div id="menu6" class="submenu">
+      <a onclick="showContent('content15')"><i class="fas fa-stop"></i> پایان انفوزیون</a>
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu7')">
+      <span><i class="fas fa-flask"></i> مثال‌های بالینی</span>
+      <i class="fas fa-chevron-left"></i>
+    </h2>
+    <div id="menu7" class="submenu">
+      <a onclick="showContent('content16')"><i class="fas fa-baby"></i> تنظیم پمپ برای اکسی‌توسین</a>
+      <a onclick="showContent('content17')"><i class="fas fa-procedures"></i> تنظیم پمپ برای سولفات منیزیم</a>
+    </div>
+  </div>
+
+  <!-- محتوای اصلی -->
+  <div class="content-container">
+    <!-- محتوای 1: تعریف پمپ -->
+    <div id="content1" class="content">
+      <h1><i class="fas fa-file-medical"></i> تعریف پمپ انفوزیون سرم</h1>
+      
+      <div class="info-card">
+        <p>پمپ انفوزیون سرم (Infusion Pump) یک <strong>دستگاه پزشکی پیشرفته</strong> است که برای انتقال دقیق و کنترل‌شده مایعات، داروها یا مواد مغذی به بدن بیمار از طریق ورید استفاده می‌شود. این دستگاه در محیط‌های بیمارستانی، مراکز درمانی و حتی در منزل برای تزریق داروهای مختلف کاربرد دارد.</p>
+      </div>
+      
+      <h2><i class="fas fa-question-circle"></i> چرا از پمپ انفوزیون استفاده می‌کنیم؟</h2>
+      <ul>
+        <li><strong>دقت بالا:</strong> امکان تزریق با دقت میکرولیتر در دقیقه</li>
+        <li><strong>کنترل جریان:</strong> جلوگیری از تزریق سریع یا آهسته غیرمجاز</li>
+        <li><strong>امنیت بیمار:</strong> کاهش خطاهای انسانی در محاسبه نرخ تزریق</li>
+        <li><strong>ثبت اطلاعات:</strong> امکان ثبت و مانیتورینگ پارامترهای تزریق</li>
+      </ul>
+      
+      <div class="tip-card">
+        <h3><i class="fas fa-lightbulb"></i> نکته فنی:</h3>
+        <p>پمپ‌های انفوزیون مدرن قادرند با دقت ±2% یا بهتر کار کنند که برای داروهای با دوز بحرانی مانند دوپامین، نورآدرنالین یا انسولین ضروری است.</p>
+      </div>
+    </div>
+
+    <!-- محتوای 2: اجزای پمپ -->
+    <div id="content2" class="content">
+      <h1><i class="fas fa-cogs"></i> اجزای پمپ انفوزیون سرم</h1>
+      
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>جزء</th>
+              <th>توضیحات</th>
+              <th>اهمیت</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>واحد اصلی پمپ</strong></td>
+              <td>بخش مرکزی که شامل پردازنده و سیستم کنترل است</td>
+              <td>مغز متفکر دستگاه</td>
+            </tr>
+            <tr>
+              <td><strong>صفحه نمایش</strong></td>
+              <td>نمایشگر LCD یا LED برای نشان دادن پارامترها</td>
+              <td>رابط کاربری اصلی</td>
+            </tr>
+            <tr>
+              <td><strong>پنل کنترل</strong></td>
+              <td>دکمه‌ها و صفحه لمسی برای تنظیمات</td>
+              <td>ورودی کاربر</td>
+            </tr>
+            <tr>
+              <td><strong>سیستم تزریق</strong></td>
+              <td>مکانیسم حرکت مایع (سرنگ یا ست وریدی)</td>
+              <td>قلب تپنده دستگاه</td>
+            </tr>
+            <tr>
+              <td><strong>سیستم هشدار</strong></td>
+              <td>هشدارهای صوتی و تصویری برای مشکلات</td>
+              <td>سیستم ایمنی</td>
+            </tr>
+            <tr>
+              <td><strong>منبع تغذیه</strong></td>
+              <td>باتری و آداپتور برق</td>
+              <td>تأمین انرژی</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="warning-card">
+        <h3><i class="fas fa-exclamation-triangle"></i> نکات ایمنی:</h3>
+        <ul>
+          <li>قبل از استفاده از دستگاه، تمام اجزا باید از نظر سلامت بررسی شوند</li>
+          <li>هرگونه آسیب به کابل‌ها یا صفحه نمایش باید فوراً گزارش شود</li>
+          <li>باتری دستگاه باید به طور منظم بررسی شود</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- محتوای 3: بررسی تجهیزات -->
+    <div id="content3" class="content">
+      <h1><i class="fas fa-check-circle"></i> بررسی تجهیزات قبل از استفاده</h1>
+      
+      <p>بررسی دقیق تجهیزات قبل از استفاده از پمپ انفوزیون برای اطمینان از عملکرد صحیح و ایمنی بیمار ضروری است.</p>
+      
+      <h2><i class="fas fa-list-check"></i> چک‌لیست بررسی تجهیزات:</h2>
+      <ol>
+        <li><strong>بررسی ظاهری دستگاه:</strong> اطمینان از عدم وجود آسیب فیزیکی</li>
+        <li><strong>بررسی کابل برق:</strong> اطمینان از سالم بودن و عدم پارگی</li>
+        <li><strong>بررسی باتری:</strong> اطمینان از شارژ کافی (حداقل 50%)</li>
+        <li><strong>بررسی صفحه نمایش:</strong> اطمینان از خوانا بودن تمام بخش‌ها</li>
+        <li><strong>بررسی دکمه‌ها:</strong> اطمینان از عملکرد صحیح تمام دکمه‌ها</li>
+        <li><strong>بررسی سیستم هشدار:</strong> تست هشدارهای صوتی و تصویری</li>
+      </ol>
+      
+      <div class="info-card">
+        <h3><i class="fas fa-clock"></i> زمان مناسب برای بررسی:</h3>
+        <p>بررسی تجهیزات باید بلافاصله قبل از هر بار استفاده انجام شود. همچنین توصیه می‌شود دستگاه به صورت ماهانه به طور کامل بررسی و کالیبره شود.</p>
+      </div>
+    </div>
+
+    <!-- محتوای 4: بازرسی ست داخل وریدی -->
+    <div id="content4" class="content">
+      <h1><i class="fas fa-syringe"></i> بازرسی ست داخل وریدی یا سرنگ</h1>
+      
+      <p>ست داخل وریدی یا سرنگ باید به دقت بازرسی شود تا از سلامت و عملکرد صحیح آن اطمینان حاصل شود.</p>
+      
+      <h2><i class="fas fa-search"></i> مراحل بازرسی:</h2>
+      <div class="success-card">
+        <ul>
+          <li><strong>بسته‌بندی:</strong> اطمینان از سالم بودن بسته‌بندی و تاریخ انقضا</li>
+          <li><strong>شفافیت:</strong> بررسی عدم وجود ذرات خارجی یا کدورت در مایع</li>
+          <li><strong>اتصالات:</strong> اطمینان از محکم بودن و عدم نشتی تمام اتصالات</li>
+          <li><strong>لوله‌ها:</strong> بررسی عدم وجود ترک یا انسداد در لوله‌ها</li>
+          <li><strong>فیلتر:</strong> در صورت وجود فیلتر، از باز بودن آن اطمینان حاصل کنید</li>
+        </ul>
+      </div>
+      
+      <div class="warning-card">
+        <h3><i class="fas fa-ban"></i> موارد منع استفاده:</h3>
+        <p>در صورت مشاهده هر یک از موارد زیر، از ست داخل وریدی استفاده نکنید:</p>
+        <ul>
+          <li>آسیب فیزیکی به بسته‌بندی</li>
+          <li>وجود ذرات خارجی در مایع</li>
+          <li>تاریخ انقضا گذشته</li>
+          <li>هرگونه نشتی یا آسیب به لوله‌ها</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- محتوای 5: روشن کردن پمپ -->
+    <div id="content5" class="content">
+      <h1><i class="fas fa-power-off"></i> روشن کردن پمپ انفوزیون</h1>
+      
+      <p>روشن کردن صحیح پمپ انفوزیون اولین گام برای استفاده ایمن از دستگاه است.</p>
+      
+      <h2><i class="fas fa-list-ol"></i> مراحل روشن کردن:</h2>
+      <ol>
+        <li><strong>اتصال به برق:</strong> دستگاه را به پریز برق مناسب متصل کنید</li>
+        <li><strong>فشار دکمه پاور:</strong> دکمه پاور را برای 2-3 ثانیه فشار دهید</li>
+        <li><strong>صبر برای بوت:</strong> منتظر بمانید تا دستگاه به طور کامل راه‌اندازی شود (30-60 ثانیه)</li>
+        <li><strong>بررسی صفحه نمایش:</strong> اطمینان از نمایش صحیح تمام نمادها</li>
+        <li><strong>تست خودکار:</strong> دستگاه معمولاً یک تست خودکار انجام می‌دهد</li>
+      </ol>
+      
+      <div class="tip-card">
+        <h3><i class="fas fa-battery-three-quarters"></i> نکته باتری:</h3>
+        <p>حتی در صورت اتصال به برق، اطمینان از شارژ کافی باتری (حداقل 30%) ضروری است تا در صورت قطع برق، دستگاه به کار خود ادامه دهد.</p>
+      </div>
+    </div>
+
+    <!-- محتوای 16: مثال اکسی‌توسین -->
+    <div id="content16" class="content">
+      <h1><i class="fas fa-baby"></i> تنظیم پمپ انفوزیون برای اکسی‌توسین</h1>
+      
+      <p>اکسی‌توسین (Oxytocin) یک داروی مهم در زایمان است که برای القا یا تقویت انقباضات رحمی استفاده می‌شود. تنظیم دقیق پمپ انفوزیون برای این دارو حیاتی است.</p>
+      
+      <h2><i class="fas fa-calculator"></i> محاسبه دوز اکسی‌توسین:</h2>
+      <div class="info-card">
+        <p>فرمول محاسبه دوز اکسی‌توسین:</p>
+        <p style="text-align: center; font-size: 1.3rem; font-weight: bold;">
+          دوز (mIU/min) = (غلظت × نرخ جریان) / 1000
+        </p>
+        <p>معمولاً با غلظت 10 واحد در 1000ml نرمال سالین شروع می‌شود (10mIU/ml).</p>
+      </div>
+      
+      <h2><i class="fas fa-procedures"></i> پروتکل استاندارد:</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>مرحله</th>
+              <th>دوز (mIU/min)</th>
+              <th>افزایش</th>
+              <th>فاصله زمانی</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>شروع</td>
+              <td>1-2</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>4</td>
+              <td>2</td>
+              <td>30 دقیقه</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>8</td>
+              <td>4</td>
+              <td>30 دقیقه</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>12</td>
+              <td>4</td>
+              <td>30 دقیقه</td>
+            </tr>
+            <tr>
+              <td>حداکثر</td>
+              <td>20-40</td>
+              <td>متغیر</td>
+              <td>30 دقیقه</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- محتوای 17: مثال سولفات منیزیم -->
+    <div id="content17" class="content">
+      <h1><i class="fas fa-procedures"></i> تنظیم پمپ انفوزیون برای سولفات منیزیم</h1>
+      
+      <p>سولفات منیزیم (Magnesium Sulfate) در پره‌اکلامپسی و اکلامپسی برای پیشگیری و درمان تشنج استفاده می‌شود.</p>
+      
+      <h2><i class="fas fa-prescription-bottle-alt"></i> پروتکل تزریق:</h2>
+      <div class="info-card">
+        <h3>دوز بارگیری (Loading Dose):</h3>
+        <ul>
+          <li>4-6 گرم در 100ml نرمال سالین</li>
+          <li>در مدت 15-20 دقیقه تزریق شود</li>
+          <li>نرخ جریان: 300-400ml/h</li>
+        </ul>
+      </div>
+      
+      <div class="warning-card">
+        <h3>دوز نگهدارنده (Maintenance Dose):</h3>
+        <ul>
+          <li>1-2 گرم در ساعت</li>
+          <li>در 500ml نرمال سالین</li>
+          <li>نرخ جریان: 50-100ml/h</li>
+          <li>تا 24 ساعت پس از زایمان ادامه یابد</li>
+        </ul>
+      </div>
+      
+      <h2><i class="fas fa-vial"></i> پایش بیمار:</h2>
+      <ol>
+        <li>بررسی رفلکس‌های تاندونی عمقی هر ساعت</li>
+        <li>پایش میزان ادرار (>30ml/h)</li>
+        <li>بررسی سطح منیزیم خون در صورت نیاز</li>
+        <li>پایش علائم مسمومیت (ضعف عضلانی، کاهش رفلکس‌ها، دیسترس تنفسی)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- دکمه بازگشت به بالا -->
+  <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // نمایش/مخفی کردن منوهای فرعی
+    function toggleSubmenu(menuId) {
+      const submenu = document.getElementById(menuId);
+      const header = submenu.previousElementSibling;
+      
+      submenu.classList.toggle('active');
+      header.classList.toggle('active');
+    }
+
+    // نمایش محتوای انتخاب شده
+    function showContent(contentId) {
+      // مخفی کردن همه محتواها
+      document.querySelectorAll('.content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // نمایش محتوای انتخاب شده
+      const content = document.getElementById(contentId);
+      if (content) {
+        content.classList.add('active');
+        content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // بستن منوی موبایل در حالت رسپانسیو
+      if (window.innerWidth < 768) {
+        document.getElementById('sidebar').style.display = 'none';
+      }
+    }
+
+    // نمایش دکمه بازگشت به بالا هنگام اسکرول
+    window.addEventListener('scroll', () => {
+      const backToTop = document.querySelector('.back-to-top');
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    // نمایش محتوای اولیه هنگام لود صفحه
+    window.addEventListener('DOMContentLoaded', () => {
+      showContent('content1');
+      
+      // باز کردن اولین منو
+      document.getElementById('menu1').classList.add('active');
+      document.querySelector('#sidebar h2').classList.add('active');
+      
+      // نمایش منو در حالت موبایل
+      if (window.innerWidth < 768) {
+        document.getElementById('sidebar').style.display = 'none';
+        const menuToggle = document.createElement('div');
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        menuToggle.style.position = 'fixed';
+        menuToggle.style.top = '20px';
+        menuToggle.style.right = '20px';
+        menuToggle.style.backgroundColor = 'var(--primary-color)';
+        menuToggle.style.color = 'white';
+        menuToggle.style.width = '50px';
+        menuToggle.style.height = '50px';
+        menuToggle.style.borderRadius = '50%';
+        menuToggle.style.display = 'flex';
+        menuToggle.style.alignItems = 'center';
+        menuToggle.style.justifyContent = 'center';
+        menuToggle.style.fontSize = '1.5rem';
+        menuToggle.style.cursor = 'pointer';
+        menuToggle.style.zIndex = '1001';
+        menuToggle.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+        menuToggle.onclick = function() {
+          const sidebar = document.getElementById('sidebar');
+          sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+        };
+        document.body.appendChild(menuToggle);
+      }
+    });
+  </script>
+</body>
+</html>

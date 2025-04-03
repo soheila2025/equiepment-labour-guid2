@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دستگاه دی سی شوک </title>
+  <style>
+    /* تنظیمات عمومی صفحه */
+    body {
+      font-family: 'B Nazanin', sans-serif;
+      background-image: url('file:///C:/Users/kavosh/Desktop/app%20for%20equeipments/image/DC SHOK.jpg');
+      background-size: 80%;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      direction: rtl; /* راست‌چین کردن صفحه */
+    }
+
+    /* نوار منو */
+    #sidebar {
+      width: 320px;
+      height: calc(100vh - 40px); /* فاصله از بالا و پایین */
+      background-color: rgba(163, 232, 149, 0.89);
+      backdrop-filter: blur(15px);
+      color: rgba(36, 7, 7, 0.822);
+      padding: 20px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      overflow-y: auto;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+    }
+
+    #sidebar h2 {
+      font-size: 22px;
+      margin-top: 0;
+      color: #242627;
+      cursor: pointer;
+    }
+
+    #sidebar h2:hover {
+      color: #f39c12;
+    }
+
+    .submenu {
+      display: none;
+      padding-right: 15px;
+    }
+
+    .submenu a {
+      color: #4d5050;
+      text-decoration: none;
+      display: block;
+      padding: 8px 0;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .submenu a:hover {
+      background-color: #55eb78;
+      border-radius: 5px;
+    }
+
+    /* استایل محتوای نمایش داده‌شده */
+    .content {
+      margin-right: 350px;
+      padding: 20px;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .content.active {
+      display: block;
+      opacity: 1;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-top: 30px;
+      color: #000;
+      font-family: 'B Titr', sans-serif;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-top: 20px;
+      color: #8e44ad;
+      font-family: 'B Titr', sans-serif;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-top: 10px;
+      color: #7f8c8d;
+    }
+
+    /* راست‌چین کردن محتوا */
+    .content {
+      text-align: right; /* راست‌چین کردن محتوا */
+      font-family: 'B Nazanin', sans-serif;
+    }
+
+    ul {
+      list-style-position: inside; /* لیست‌ها به سمت راست حرکت می‌کنند */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- نوار منو -->
+  <div id="sidebar">
+    <h2 onclick="toggleSubmenu('menu1')">مقدمه ای بر دستگاه دفیبریلاتور (DC Shock) یا الکتروشوک</h2>
+    <div id="menu1" class="submenu">
+      <a onclick="showContent('content1')">مقدمه</a>
+     </div>
+
+    <h2 onclick="toggleSubmenu('menu2')">انواع دستگاه دفیبریلاتور</h2>
+    <div id="menu2" class="submenu">
+      <a onclick="showContent('content3')">	دفیبریلاتور خارجی خودکار (AED - Automated External Defibrillator)</a><!--ساب تایتل-->
+      <a onclick="showContent('content4')">	دفیبریلاتور خارجی دستی</a>
+      <a onclick="showContent('content5')">	دفیبریلاتور همزمان (Synchronized Cardioversion)</a><!--اضافه کردم این ساب تایتل!-->
+          <a onclick="showContent('content6')">	دفیبریلاتور داخلی (ICD - Implantable Cardioverter Defibrillator)</a><!--اضافه کردم این ساب تایتل!-->
+
+    
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu3')">نحوه کار با دستگاه دفیبریلاتور (روش دستی)</h2>
+    <div id="menu3" class="submenu">
+      <a onclick="showContent('content7')">ارزیابی وضعیت بیمار</a>
+      <a onclick="showContent('content8')">آماده‌سازی دستگاه و بیمار</a>
+
+      <a onclick="showContent('content9')">   اعمال شوک الکتریکی  </a>
+    </div>
+
+    <h2 onclick="toggleSubmenu('menu4')">نکات ایمنی و هشدارها</h2>
+    <div id="menu4" class="submenu">
+      <a onclick="showContent('content10')">نکات قبل از شوک</a>
+      <a onclick="showContent('content11')">نکات حین و بعد از شوک</a>
+
+</div>
+
+<h2 onclick="toggleSubmenu('menu5')">عوارض احتمالی شوک الکتریکی</h2>
+
+<a onclick="showContent('content12')">عوارض احتمالی شوک الکتریکی</a>
+
+<h2 onclick="toggleSubmenu('menu6')">استفاده از دستگاه دفیبریلاتور (DC Shock) در زنان باردار</h2>
+<div id="menu6" class="submenu">
+  <a onclick="showContent('content13')">ایمنی دفیبریلاسیون در بارداری</a>
+  <a onclick="showContent('content14')">نکات مهم هنگام دفیبریلاسیون در بارداری</a>
+
+  <a onclick="showContent('content15')">انرژی شوک در بارداری</a>
+  <a onclick="showContent('content16')">عوارض احتمالی در بارداری</a>
+
+</div>
+
+  <!-- محتوای صفحه -->
+</div>
+    <div id="content1" class="content">
+    <h2>مقدمه</h2>
+    <p>دفیبریلاتور یا DC Shock دستگاهی حیاتی در اورژانس‌ها، بخش‌های ICU، CCU و آمبولانس‌ها است که برای احیای بیماران با آریتمی‌های کشنده، مانند فیبریلاسیون بطنی (VF) و تاکی‌کاردی بطنی بدون نبض (VT)، استفاده می‌شود. این دستگاه از طریق ارسال یک شوک الکتریکی قوی به قلب، فعالیت الکتریکی غیرطبیعی را متوقف کرده و اجازه می‌دهد گره سینوسی ریتم طبیعی قلب را مجدداً برقرار کند.</p>
+    
+  </div>
+
+  <div id="content3" class="content">
+    <h1>	دفیبریلاتور خارجی خودکار (AED - Automated External Defibrillator)</h1>
+
+    <ul style="list-style-type: none; padding-right: 20px;">
+      <li style="margin-bottom: 10px;">
+          <span style="color: #ff6b6b;">•</span> مخصوص افراد غیرپزشک (کاربران عمومی)
+      </li>
+      <li style="margin-bottom: 10px;">
+          <span style="color: #ff6b6b;">•</span> خودکار تجزیه‌وتحلیل ریتم قلب را انجام می‌دهد و در صورت نیاز به شوک، به کاربر اطلاع می‌دهد.
+      </li>
+      <li>
+          <span style="color: #ff6b6b;">•</span> معمولاً در اماکن عمومی مانند فرودگاه‌ها، ورزشگاه‌ها و مراکز خرید وجود دارد.
+      </li>
+  </ul>
+    
+  </div>
+
+  <div id="content4" class="content">
+    <h1>دفیبریلاتور خارجی دستی</h1>
+    <ul style="list-style-type: none; padding-right: 20px; font-family: 'Nazanin', Tahoma;">
+      <li style="margin-bottom: 12px;">
+          <span style="color: #e63946; margin-left: 5px;">🩺</span> دفیبریلاتور خارجی دستی 
+      </li>
+      <li style="margin-bottom: 12px;">
+          <span style="color: #e63946; margin-left: 5px;">🏥</span> در بیمارستان‌ها و توسط پرسنل پزشکی استفاده می‌شود.
+      </li>
+      <li>
+          <span style="color: #e63946; margin-left: 5px;">👨‍⚕️</span> تنظیم دستی انرژی شوک و تفسیر ریتم قلب توسط پزشک یا پرستار انجام می‌شود.
+      </li>
+  </ul>
+  </div>
+
+  <div id="content5" class="content">
+    <h1>	دفیبریلاتور همزمان (Synchronized Cardioversion)</h1>
+
+    <ul style="list-style-type: none; padding-right: 20px; font-family: 'Nazanin', Tahoma; line-height: 1.6;">
+      <li style="margin-bottom: 12px;">
+          <span style="color: #e63946; margin-left: 5px;">❤️</span> 
+          <strong>برای آریتمی‌هایی مانند:</strong>
+          <ul style="list-style-type: none; margin-right: 20px;">
+              <li>- فیبریلاسیون دهلیزی (AF)</li>
+              <li>- تاکی‌کاردی فوق‌بطنی (SVT)</li>
+          </ul>
+      </li>
+      <li>
+          <span style="color: #e63946; margin-left: 5px;">📈</span> 
+          شوک در زمان موج R در ECG اعمال می‌شود تا از ایجاد فیبریلاسیون بطنی جلوگیری شود.
+      </li>
+  </ul>
+
+
+  </div>
+
+  <div id="content6" class="content">
+    <h1>	دفیبریلاتور داخلی (ICD - Implantable Cardioverter Defibrillator)</h1>
+    <div style="background-color: #f8f9fa; border-right: 4px solid #3a86ff; padding: 15px; border-radius: 0 8px 8px 0;">
+      <ul style="list-style-type: none; padding-right: 15px; color: #495057;">
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="color: #3a86ff; margin-left: 8px; font-size: 1.3em;">🫀</span>
+              <span>در بیمارانی که مستعد <strong style="color: #d90429;">آریتمی‌های کشنده</strong> هستند کاشته می‌شود.</span>
+          </li>
+          <li style="display: flex; align-items: flex-start;">
+              <span style="color: #3a86ff; margin-left: 8px; font-size: 1.3em;">⚡</span>
+              <span>به‌طور خودکار <strong>آریتمی‌های شدید</strong> را تشخیص داده و اقدام به <span style="color: #d90429;">شوک</span> یا تنظیم ریتم قلب می‌کند.</span>
+          </li>
+      </ul>
+  </div>
+  </div>
+
+  <div id="content7" class="content">
+    <h1>ارزیابی وضعیت بیمار</h1>
+
+    <div style="background-color: #fff5f5; border: 1px solid #ffccd5; border-radius: 8px; padding: 15px; margin: 10px 0;">
+      <h3 style="color: #c9184a; border-bottom: 2px dashed #ff758f; padding-bottom: 8px; font-family: 'Nazanin', Tahoma;">
+          مراحل ارزیابی اولیه در ایست قلبی
+      </h3>
+      <ul style="list-style-type: none; padding-right: 10px;">
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="background-color: #ff758f; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">1</span>
+              <div>
+                  <strong style="color: #c9184a;">بررسی سطح هوشیاری بیمار:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">عدم پاسخگویی به تحریکات کلامی و فیزیکی</span>
+              </div>
+          </li>
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="background-color: #ff758f; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">2</span>
+              <div>
+                  <strong style="color: #c9184a;">بررسی تنفس:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">عدم تنفس (Apnea) یا تنفس غیرموثر (گازگاز)</span>
+              </div>
+          </li>
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="background-color: #ff758f; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">3</span>
+              <div>
+                  <strong style="color: #c9184a;">بررسی نبض کاروتید:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">عدم وجود نبض در فیبریلاسیون بطنی (VF) یا تاکی‌کاردی بطنی (VT) بدون نبض</span>
+              </div>
+          </li>
+          <li style="display: flex; align-items: flex-start;">
+              <span style="background-color: #c9184a; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">4</span>
+              <div>
+                  <strong style="color: #c9184a;">اقدامات فوری:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">درخواست کمک تخصصی و آماده‌سازی دفیبریلاتور برای شوک احتمالی</span>
+              </div>
+          </li>
+      </ul>
+
+  </div>
+
+  </div>
+
+  <div id="content8" class="content">
+    <h1>آماده‌سازی دستگاه و بیمار</h1>
+    
+    
+    <div style="background-color: #fff5f5; border: 1px solid #ffccd5; border-radius: 8px; padding: 15px; margin: 10px 0;">
+      <h3 style="color: #c9184a; border-bottom: 2px dashed #ff758f; padding-bottom: 8px; font-family: 'Nazanin', Tahoma;">
+          مراحل استفاده از دفیبریلاتور
+      </h3>
+      <ul style="list-style-type: none; padding-right: 10px;">
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="background-color: #ff758f; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">1</span>
+              <div>
+                  <strong style="color: #c9184a;">روشن کردن دستگاه دفیبریلاتور:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">دستگاه را روشن کرده و آماده استفاده کنید.</span>
+              </div>
+          </li>
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="background-color: #ff758f; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">2</span>
+              <div>
+                  <strong style="color: #c9184a;">انتخاب مدل شوک:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">همزمان یا غیرهمزمان را بر اساس شرایط بیمار انتخاب کنید.</span>
+              </div>
+          </li>
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="background-color: #ff758f; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">3</span>
+              <div>
+                  <strong style="color: #c9184a;">تنظیم انرژی شوک:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">برای VF/VT: معمولاً 150-360 ژول (تک‌فاز) و 120-200 ژول (دوفازی).</span>
+              </div>
+          </li>
+          <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+              <span style="background-color: #ff758f; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">4</span>
+              <div>
+                  <strong style="color: #c9184a;">قرار دادن الکترودها:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">پدال دستی: زیر ترقوه راست و زیر نوک قلب چپ | پد چسبی: روی قفسه سینه.</span>
+              </div>
+          </li>
+          <li style="display: flex; align-items: flex-start;">
+              <span style="background-color: #c9184a; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">5</span>
+              <div>
+                  <strong style="color: #c9184a;">اطمینان از عدم تماس پرسنل:</strong>
+                  <span style="display: block; margin-right: 10px; color: #6a040f;">قبل از اعمال شوک، مطمئن شوید هیچ فردی با بیمار تماس ندارد.</span>
+              </div>
+          </li>
+      </ul>
+
+
+
+    </div>
+
+  </div>
+
+  <div id="content9" class="content">
+    <h1> اعمال شوک الکتریکی </h1>
+   
+      
+      <div style="background-color: #f4f8fb; border: 1px solid #c4d8e6; border-radius: 8px; padding: 15px; margin: 10px 0;">
+        <h3 style="color: #0076a3; border-bottom: 2px dashed #56c8f3; padding-bottom: 8px; font-family: 'Arial', sans-serif;">
+           
+        </h3>
+        <ul style="list-style-type: none; padding-right: 10px;">
+            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">1</span>
+                <div>
+                    <strong style="color: #0076a3;">•	دکمه شارژ (Charge) را فشار دهید.</strong>
+                </div>
+            </li>
+            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">2</span>
+                <div>
+                    <strong style="color: #0076a3;">•	با اعلام "Clear!" اطمینان حاصل کنید که هیچ‌کس با بیمار تماس ندارد.</strong>
+                </div>
+            </li>
+            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">3</span>
+                <div>
+                    <strong style="color: #0076a3;">•	دکمه شوک (Shock) را فشار دهید.</strong>
+                </div>
+            </li>
+            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">4</span>
+                <div>
+                    <strong style="color: #0076a3;">•	بررسی ریتم قلب و نبض بعد از شوک</strong>
+                </div>
+            </li>
+        </ul>
+   
+
+
+
+
+
+
+  </div>
+</div>
+
+<div id="content10" class="content">
+  <h1>نکات قبل از شوک</h1>
+  
+  <div style="background-color: #f4f8fb; border: 1px solid #c4d8e6; border-radius: 8px; padding: 15px; margin: 10px 0;">
+    <h3 style="color: #0076a3; border-bottom: 2px dashed #56c8f3; padding-bottom: 8px; font-family: 'Arial', sans-serif;">
+        نکات ایمنی در استفاده از دفیبریلاتور
+    </h3>
+    <ul style="list-style-type: none; padding-right: 10px;">
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">1</span>
+            <div>
+                <strong style="color: #0076a3;">بیمار را در محیط خشک و غیرقابل اشتعال قرار دهید:</strong>
+                <span style="display: block; margin-right: 10px; color: #555;">اطمینان حاصل کنید که محیط اطراف بیمار خشک باشد و از مواد قابل اشتعال دور نگه‌دارید.</span>
+            </div>
+        </li>
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">2</span>
+            <div>
+                <strong style="color: #0076a3;">اگر بیمار در آب افتاده است، ابتدا بدن او را خشک کنید:</strong>
+                <span style="display: block; margin-right: 10px; color: #555;">خشک کردن بدن بیمار قبل از استفاده از دفیبریلاتور ضروری است.</span>
+            </div>
+        </li>
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">3</span>
+            <div>
+                <strong style="color: #0076a3;">اگر پیس‌میکر دارد، پدال‌ها را حداقل 3 سانتی‌متر دورتر از آن قرار دهید:</strong>
+                <span style="display: block; margin-right: 10px; color: #555;">از قرار دادن پدال‌ها روی پیس‌میکر خودداری کنید و آنها را حداقل 3 سانتی‌متر دورتر از آن قرار دهید.</span>
+            </div>
+        </li>
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">4</span>
+            <div>
+                <strong style="color: #0076a3;">در حین شارژ و اعمال شوک، هیچ‌کس نباید بیمار را لمس کند:</strong>
+                <span style="display: block; margin-right: 10px; color: #555;">اطمینان حاصل کنید که هیچ‌کس هنگام شارژ و اعمال شوک، بیمار را لمس نکند.</span>
+            </div>
+        </li>
+    </ul>
+</div>
+</div>
+
+
+
+
+
+
+<div id="content11" class="content">
+  <h1>نکات حین و بعد از شوک</h1>
+  
+  <div style="background-color: #f4f8fb; border: 1px solid #c4d8e6; border-radius: 8px; padding: 15px; margin: 10px 0;">
+    <h3 style="color: #0076a3; border-bottom: 2px dashed #56c8f3; padding-bottom: 8px; font-family: 'Arial', sans-serif;">
+    </h3>
+    <ul style="list-style-type: none; padding-right: 10px;">
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">1</span>
+            <div>
+                <strong style="color: #0076a3;">ریتم بیمار را بعد از هر شوک بررسی کنید.</strong>
+                <span style="display: block; margin-right: 10px; color: #555;">در صورت لزوم فوراً ماساژ قلبی و تهویه را ادامه دهید.</span>
+            </div>
+        </li>
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #56c8f3; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px;">2</span>
+            <div>
+                <strong style="color: #0076a3;">اگر ریتم بیمار برگشت ولی ضربان آهسته شد، آتروپین یا ایزوپروترنول ممکن است تجویز شود.</strong>
+                <span style="display: block; margin-right: 10px; color: #555;">اگر بیمار دچار ایست تنفسی شد، لوله‌گذاری داخل تراشه (ETT) و تهویه مکانیکی ممکن است لازم باشد.</span>
+            </div>
+         </div>
+        </li>
+    </ul>
+</div>
+</div>
+
+
+<div id="content12" class="content">
+  <h1>عوارض احتمالی شوک الکتریکی</h1>
+
+  <div style="background-color: #fff0f0; border: 2px solid #ff6b6b; border-radius: 10px; padding: 15px; margin: 15px 0;">
+    <h3 style="color: #9e0059; border-bottom: 1px solid #ff6b6b; padding-bottom: 8px; font-family: 'Nazanin', Tahoma;">
+        ⚠️ عوارض جانبی احتمالی دفیبریلاسیون
+    </h3>
+    <ul style="list-style-type: none; padding-right: 10px;">
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #d00000; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px; font-size: 1.1em;">!</span>
+            <div>
+                <strong style="color: #d00000;">سوختگی پوست:</strong>
+                <span style="display: block; margin-right: 10px; color: #6a040f;">در محل اتصال پدال‌ها به علت انتقال انرژی الکتریکی</span>
+            </div>
+        </li>
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #d00000; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px; font-size: 1.1em;">!</span>
+            <div>
+                <strong style="color: #d00000;">آریتمی‌های خطرناک:</strong>
+                <span style="display: block; margin-right: 10px; color: #6a040f;">شامل ایست قلبی (Asystole) و فعالیت الکتریکی بدون نبض (PEA)</span>
+            </div>
+        </li>
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #d00000; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px; font-size: 1.1em;">!</span>
+            <div>
+                <strong style="color: #d00000;">آسیب میوکارد:</strong>
+                <span style="display: block; margin-right: 10px; color: #6a040f;">ناشی از شوک‌های مکرر با انرژی بالا</span>
+            </div>
+        </li>
+        <li style="display: flex; align-items: flex-start;">
+            <span style="background-color: #9e0059; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px; font-size: 1.1em;">!</span>
+            <div>
+                <strong style="color: #9e0059;">عوارض ترومبو
+                </div>
+              </div>
+             </li>
+         </ul>
+     </div>
+     </div>
+
+</div>
+</div>
+
+<div id="content13" class="content">
+  <h1>ایمنی دفیبریلاسیون در بارداری</h1>
+  <div style="background-color: #f0f8ff; border: 2px solid #4cc9f0; border-radius: 10px; padding: 15px; margin: 15px 0;">
+    <h3 style="color: #4361ee; border-bottom: 2px dashed #4cc9f0; padding-bottom: 8px; font-family: 'Nazanin', Tahoma;">
+        🏥 ایمنی دفیبریلاسیون در بارداری
+    </h3>
+    <ul style="list-style-type: none; padding-right: 10px;">
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #2b9348; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px; font-size: 1.1em;">✓</span>
+            <div>
+                <strong style="color: #2b9348;">ایمنی برای مادر و جنین:</strong>
+                <span style="display: block; margin-right: 10px; color: #184e77;">شوک الکتریکی دفیبریلاتور مستقیماً به جنین آسیب نمی‌رساند</span>
+            </div>
+        </li>
+        <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+            <span style="background-color: #2b9348; color: white; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px; font-size: 1.1em;">✓</span>
+            <div>
+                <strong style="color: #2b9348;">مسیر جریان الکتریکی:</strong>
+                <span style="display: block; margin-right: 10px; color: #184e77;">جریان از مسیر قلب مادر عبور می‌کند و وارد رحم نمی‌شود</span>
+            </div>
+        </li>
+        <li style="display: flex; align-items: flex-start;">
+            <span style="background-color: #4cc9f0; color: #184e77; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-left: 8px; font-size: 1.1em;">!</span>
+            <div>
+                <strong style="color: #4361ee;">ملاحظات مهم:</strong>
+                <span style="display: block; margin-right: 10px; color: #184e77;">کاهش موقت جریان خون رحمی ممکن است طی فرایند دفیبریلاسیون رخ دهد که نیاز به مانیتورینگ دارد</span>
+            </div>
+        </li>
+    </ul>
+    <p style="color: #184e77; font-size: 0.9em; text-align: right; margin-top: 10px; font-style: italic;">
+        ※ موقعیت پدال‌ها باید حداقل 12-15 سانتی‌متر از رحم فاصله داشته باشد
+    </p>
+ 
+</div>
+</li>
+</ul>
+ 
+</div>
+
+ 
+
+<div id="content13" class="content">
+  <h1>نکات مهم هنگام دفیبریلاسیون در بارداری</h1>
+  
+  <div class="medical-card">
+      <h3 class="card-title">
+          <span style="color: #ef233c;">⚠️</span> دستورالعمل دفیبریلاسیون در بیماران باردار
+      </h3>
+      
+      <div class="step-section">
+          <div class="step-header">
+              <span class="step-number">1</span>
+              <h4 class="step-title">موقعیت صحیح پدال‌ها</h4>
+          </div>
+          <ul class="medical-list">
+              <li>
+                  <span class="bullet-icon">📍</span>
+                  <span>همانند افراد غیرباردار، یکی در سمت راست بالای قفسه سینه و دیگری در سمت چپ قفسه سینه (زیر نوک قلب) قرار داده می‌شود.</span>
+              </li>
+              <li>
+                  <span class="bullet-icon">📍</span>
+                  <span>در صورت داشتن شکم بسیار بزرگ (سه‌ماهه سوم)، می‌توان محل پدها را کمی بالاتر قرار داد تا از انتقال انرژی کافی اطمینان حاصل شود.</span>
+              </li>
+          </ul>
+      </div>
+      
+      <div class="step-section">
+          <div class="step-header">
+              <span class="step-number">2</span>
+              <h4 class="step-title">مانیتورینگ دقیق جنین و مادر</h4>
+          </div>
+          <ul class="medical-list">
+              <li>
+                  <span class="gray-bullet">•</span>
+                  <span>پس از شوک، بررسی ضربان قلب جنین (FHR) با مانیتورینگ جنینی (NST) توصیه می‌شود.</span>
+              </li>
+              <li>
+                  <span class="gray-bullet">•</span>
+                  <span>در صورت افت ضربان قلب جنین یا علائم دکولمان جفت، ارزیابی توسط تیم زنان و زایمان ضروری است.</span>
+              </li>
+          </ul>
+      </div>
+      
+      <div class="step-section">
+          <div class="step-header">
+              <span class="step-number">3</span>
+              <h4 class="step-title">تغییر در اقدامات احیا</h4>
+          </div>
+          <ul class="medical-list">
+              <li>
+                  <span class="gray-bullet">•</span>
+                  <span>در سه‌ماهه دوم و سوم، رحم بزرگ ممکن است باعث فشردگی ورید اجوف تحتانی شده و جریان خون بازگشتی به قلب را کاهش دهد.</span>
+              </li>
+              <li>
+                  <span class="gray-bullet">•</span>
+                  <span>در CPR همراه با دفیبریلاسیون: باید رحم را به سمت چپ جابجا کرد (قرار دادن چیزی در زیر پهلوی راست مادر) تا بازگشت وریدی بهتر شود.</span>
+              </li>
+              <li>
+                  <span class="warning-bullet">!</span>
+                  <span><strong>در صورت عدم موفقیت احیا در 4-5 دقیقه، زایمان اورژانسی (Perimortem Cesarean Section - PMCS) ممکن است برای افزایش شانس بقای مادر و جنین انجام شود.</strong></span>
+              </li>
+          </ul>
+      </div>
+      
+      <div class="important-note">
+          <span class="note-icon">💡</span>
+          <p class="note-text">توجه: در تمام مراحل، اولویت با نجات جان مادر است، چرا که بهترین راه حفظ سلامت جنین، حفظ سلامت مادر می‌باشد.</p>
+      </div>
+  </div>
+</div>
+
+ 
+ 
+
+
+
+<!--
+
+   <a onclick="showContent('content13')">ایمنی دفیبریلاسیون در بارداری</a>
+  <a onclick="showContent('content14')">نکات مهم هنگام دفیبریلاسیون در بارداری</a>
+
+  <a onclick="showContent('content15')">انرژی شوک در بارداری</a>
+  <a onclick="showContent('content16')">عوارض احتمالی در بارداری</a>
+  
+
+
+
+-->
+
+
+
+
+
+
+
+
+
+  <script>
+    // دکمه‌ها برای باز و بسته کردن منوهای فرعی
+    function toggleSubmenu(menuId) {
+      var submenu = document.getElementById(menuId);
+      submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
+    }
+
+    // نمایش محتوای انتخاب‌شده
+    function showContent(contentId) {
+      // مخفی کردن همه محتوای موجود
+      var contents = document.querySelectorAll('.content');
+      contents.forEach(function(content) {
+        content.classList.remove('active');
+      });
+
+      // نمایش محتوای انتخاب‌شده
+      var content = document.getElementById(contentId);
+      content.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
